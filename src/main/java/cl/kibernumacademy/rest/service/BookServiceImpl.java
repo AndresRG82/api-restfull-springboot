@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import cl.kibernumacademy.rest.dto.BookDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import cl.kibernumacademy.rest.exception.ResourceNotFoundException;
 import cl.kibernumacademy.rest.model.Book;
@@ -30,6 +31,7 @@ public class BookServiceImpl implements IBookService {
   }
 
   @Override
+  @Transactional
   public Book create(BookDTO bookDTO) {
     Book book = new Book();
     book.setTitle(bookDTO.getTitle());
@@ -39,6 +41,7 @@ public class BookServiceImpl implements IBookService {
   }
 
   @Override
+  @Transactional
   public Book update(Long id, BookDTO book) {
     Book existing = this.bookRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Book not found: " + id));
@@ -50,6 +53,7 @@ public class BookServiceImpl implements IBookService {
   }
 
   @Override
+  @Transactional
   public void delete(Long id) {
   Book existing = this.bookRepository.findById(id)
     .orElseThrow(() -> new ResourceNotFoundException("Book not found: " + id));

@@ -53,5 +53,5 @@ public class BookController {
 //* POST -> localhost:8080/api/books 
 //* GET -> localhost:8080/api/books
 //* GET -> localhost:8080/api/books/{id}
-//* PUT -> localhost:8080/api/books/{id}
+//* PUT -> localhost:8080/api/books/{id} -> localhost:8080/api/books/1
 //* DELETE -> localhost:8080/api/books/{id}
