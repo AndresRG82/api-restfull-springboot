@@ -3,6 +3,7 @@ package cl.kibernumacademy.rest.service;
 import java.util.List;
 import java.util.Optional;
 
+import cl.kibernumacademy.rest.dto.BookDTO;
 import org.springframework.stereotype.Service;
 
 import cl.kibernumacademy.rest.exception.ResourceNotFoundException;
@@ -29,12 +30,16 @@ public class BookServiceImpl implements IBookService {
   }
 
   @Override
-  public Book create(Book book) {
-    return this.bookRepository.save(book); // * Insert into books (title, author, isbn) values (?, ?, ?);
+  public Book create(BookDTO bookDTO) {
+    Book book = new Book();
+    book.setTitle(bookDTO.getTitle());
+    book.setAuthor(bookDTO.getAuthor());
+    book.setIsbn(bookDTO.getIsbn());
+    return this.bookRepository.save(book);
   }
 
   @Override
-  public Book update(Long id, Book book) {
+  public Book update(Long id, BookDTO book) {
     Book existing = this.bookRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Book not found: " + id));
 
