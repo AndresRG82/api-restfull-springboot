@@ -23,7 +23,7 @@ public class BookController {
   public BookController(IBookService bookService) {
     this.bookService = bookService;
   }
-
+  // Jackson -> JSON
   @PostMapping
   public ResponseEntity<Book> createBook(@RequestBody Book book) {
     Book createdBook = this.bookService.create(book);
