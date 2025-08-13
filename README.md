@@ -6,3 +6,9 @@
 4. **Un filtro (`JwtAuthenticationFilter`) valida el token en cada request y coloca el usuario en el contexto de seguridad.**
 5. **Las reglas de acceso (por rol) se definen en `SecurityConfig`.**
 6. **Si el token es inválido o el usuario no tiene permisos, se responde con error JSON estándar.**
+
+
+##  
+
+- access-ttl: 15m
+- refresh-ttl: 7d
