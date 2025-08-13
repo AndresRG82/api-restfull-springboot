@@ -1,4 +1,4 @@
-package cl.kibernumacademy.rest.config;
+package cl.kibernumacademy.rest.security.config;
 
 
 // Manejador centralizado para respuestas 401/403 en formato JSON.

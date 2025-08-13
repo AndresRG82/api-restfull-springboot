@@ -84,4 +84,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Si no hay token, o es endpoint público, continúa la cadena normalmente.
         filterChain.doFilter(request, response);
     }
+
+    /**
+     * Evita aplicar el filtro a endpoints públicos como /api/auth/** o la consola H2.
+     * Esto previene que un Authorization inválido cause 401 en rutas públicas (por ejemplo, /api/auth/login).
+     */
+    @Override
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) throws ServletException {
+        String uri = request.getRequestURI();
+        return uri.startsWith("/api/auth/") || uri.startsWith("/h2-console");
+    }
 }
