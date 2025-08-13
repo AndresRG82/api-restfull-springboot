@@ -1,4 +1,8 @@
 package cl.kibernumacademy.rest.security.jwt;
+
+// Entidades de dominio para roles y usuarios.
+import cl.kibernumacademy.rest.security.domain.Role;
+import cl.kibernumacademy.rest.security.domain.UserAccount;
 // Librerías Nimbus JOSE + JWT para firmar y validar tokens.
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
@@ -21,6 +25,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+/**
+ * Servicio responsable de generar y validar tokens JWT.
+ *
+ * Funciones principales:
+ * - Generar access tokens y refresh tokens con claims estándar y personalizados.
+ * - Validar tokens recibidos: firma, expiración, issuer, claims.
+ * - Extraer payload relevante para el contexto de seguridad.
+ *
+ * Notas:
+ * - Usa Nimbus JOSE + JWT para firmar (HS256) y validar tokens.
+ * - El secreto debe tener al menos 32 caracteres (256 bits).
+ * - Los claims incluyen: sub (usuario), roles, ver (tokenVersion), iss, iat, exp, jti.
+ */
 @Service
 public class JwtService {
      // Logger para depuración de emisión de tokens.
