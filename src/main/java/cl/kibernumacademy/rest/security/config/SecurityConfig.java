@@ -20,11 +20,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import cl.kibernumacademy.rest.security.repository.UserAccountRepository;
 
 /**
  * Configuración principal de Spring Security.
@@ -101,6 +106,25 @@ public class SecurityConfig {
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
+
+    /**
+     * Carga de usuarios desde la base de datos (tabla users + user_roles).
+     * Usa authorities con valores del enum (ROLE_*) para evitar doble prefijo.
+     */
+    @Bean
+    public UserDetailsService userDetailsService(UserAccountRepository repo) {
+        return username -> repo.findByUsername(username)
+            .map(ua -> User.withUsername(ua.getUsername())
+                .password(ua.getPassword())
+                .authorities(ua.getRoles().stream().map(Enum::name).toArray(String[]::new))
+                .disabled(!ua.isEnabled())
+                .build())
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    // No se declara AuthenticationProvider manual para evitar APIs deprecadas.
+    // Spring Boot configurará DaoAuthenticationProvider automáticamente usando este
+    // UserDetailsService y el PasswordEncoder declarado arriba.
 
     /**
      * Configuración de CORS:
