@@ -12,3 +12,32 @@
 
 - access-ttl: 15m
 - refresh-ttl: 7d
+
+## Ejecutar la aplicación (Windows PowerShell)
+
+Desde la carpeta raíz del proyecto puedes usar uno de estos comandos:
+
+```powershell
+.\mvnw spring-boot:run
+```
+
+Con Maven instalado globalmente:
+
+```powershell
+mvn spring-boot:run
+```
+
+Con Gradle (si tuvieses un wrapper de Gradle):
+
+```powershell
+.\gradlew.bat bootRun
+```
+
+Construir el JAR y ejecutar:
+
+```powershell
+.\mvnw clean package -DskipTests
+java -jar target\*.jar
+```
+
+Por defecto la aplicación corre en http://localhost:8080 salvo que cambies el puerto en `src/main/resources/application.yaml`.
