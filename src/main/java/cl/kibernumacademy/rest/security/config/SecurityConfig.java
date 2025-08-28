@@ -94,9 +94,9 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(frame -> frame.disable())) // for H2 console
             .authorizeHttpRequests(auth -> auth
                 // Endpoints públicos (login/registro/refresh y consola H2).
-                .requestMatchers("/api/auth/**", "/h2-console/**").permitAll()
+                .requestMatchers("/api/auth/**", "/h2-console/**", "/api/books/**").permitAll()
                 // Lecturas de libros permitidas a USER o ADMIN.
-                .requestMatchers(HttpMethod.GET, "/api/books/**").hasAnyRole("USER", "ADMIN")
+                // .requestMatchers(HttpMethod.GET, "/api/books/**").hasAnyRole("USER", "ADMIN")
                 // Operaciones de escritura solo para ADMIN.
                 .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("ADMIN")
