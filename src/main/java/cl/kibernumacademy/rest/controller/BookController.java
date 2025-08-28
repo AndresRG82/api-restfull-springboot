@@ -4,7 +4,6 @@ import java.util.List;
 
 import cl.kibernumacademy.rest.dto.BookDTO;
 import jakarta.validation.Valid;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties.Http;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +35,23 @@ public class BookController {
   @PutMapping("/{id}")
   public ResponseEntity<Book> updateBook(@PathVariable Long id, @Valid @RequestBody BookDTO bookDTO) {
     return ResponseEntity.ok(this.bookService.update(id, bookDTO));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity<Book> getBookById(@PathVariable Long id) {
+  /*
+  // Forma tradicional (sin Optional.map):
+  Optional<Book> bookOpt = this.bookService.findById(id);
+  if (bookOpt.isPresent()) {
+    return ResponseEntity.ok(bookOpt.get());
+  } else {
+    return ResponseEntity.notFound().build();
+  }
+  */
+  return this.bookService.findById(id) // Busca el libro por su id. El resultado es un Optional<Book> que puede estar vacío si no existe el libro.
+    .map(ResponseEntity::ok)            // map es un método de Optional (inspirado en la programación funcional) que permite transformar el valor solo si está presente, evitando ifs explícitos.
+                                       // Aquí, si el Optional contiene un libro, lo transforma en una respuesta HTTP 200 OK con el libro en el cuerpo.
+    .orElse(ResponseEntity.notFound().build()); // Si el Optional está vacío (no se encontró el libro), retorna una respuesta HTTP 404 Not Found.
   }
   /*
   Qué hace @Valid
