@@ -2,3 +2,4 @@
 INSERT INTO book (id, title, author, isbn) VALUES (1, 'Cien años de soledad', 'Gabriel García Márquez', '978-0307474728');
 INSERT INTO book (id, title, author, isbn) VALUES (2, '1984', 'George Orwell', '978-0451524935');
 INSERT INTO book (id, title, author, isbn) VALUES (3, 'El Principito', 'Antoine de Saint-Exupéry', '978-0156013987');
+ALTER TABLE book ALTER COLUMN id RESTART WITH 4;
